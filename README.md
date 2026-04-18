@@ -114,6 +114,12 @@ A **blueprint** for the Self-Improving Platform pattern — a working feedback a
 
 This is **not a production deployment**. To use in your production environment, follow the Production Adoption Guide below.
 
+### About the Sample Data
+
+All numbers in the agent's output (e.g., "62% of teams removed the logging sidecar", "security scan averaging 6.2 minutes") come from the **sample data files** in `sample-data/`. These are realistic but fictional examples created for the demo. Bedrock reads this sample data and cites it in the proposals — it does not invent statistics.
+
+In production, when you replace the collectors with real API integrations (Step 1 below), the numbers will come from your actual platform data — real git history, real CI traces, real scorecard trends, real PR comments.
+
 ---
 
 ## Project Structure
