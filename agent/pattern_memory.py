@@ -115,6 +115,8 @@ def _pgvector_available() -> bool:
 
 def _connect_pgvector():
     import psycopg2
-    db_url = os.environ.get("DATABASE_URL", "postgresql://agent:agent_local_only@localhost:5432/feedback_agent")
+    db_url = os.environ.get("DATABASE_URL")
+    if not db_url:
+        raise RuntimeError("DATABASE_URL not set. Configure it in .env to use pgvector.")
     conn = psycopg2.connect(db_url)
     return PgvectorBackend(conn)
