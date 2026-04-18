@@ -1,0 +1,8 @@
+{
+  "window": "90d",
+  "slow_steps": [
+    { "step": "security-scan", "avg_duration_min": 6.2, "teams_skipping": 34, "skip_rate": 0.40 },
+    { "step": "integration-tests", "avg_duration_min": 5.8, "teams_skipping": 12, "skip_rate": 0.14 },
+    { "step": "docker-build", "avg_duration_min": 4.1, "teams_skipping": 0, "skip_rate": 0.0 }
+  ]
+}

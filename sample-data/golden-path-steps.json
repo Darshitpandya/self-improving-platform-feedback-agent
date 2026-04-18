@@ -1,0 +1,8 @@
+[
+  { "step": "logging-sidecar", "description": "Auto-included structured logging sidecar", "tags": ["observability"] },
+  { "step": "auth-middleware", "description": "JWT validation middleware", "tags": ["security"] },
+  { "step": "security-scan", "description": "CI security dependency scan", "tags": ["security", "ci"] },
+  { "step": "health-check-endpoint", "description": "Standardised /health endpoint", "tags": ["observability"] },
+  { "step": "db-migration", "description": "Database migration framework", "tags": ["data"] },
+  { "step": "otel-instrumentation", "description": "OpenTelemetry auto-instrumentation", "tags": ["observability"] }
+]

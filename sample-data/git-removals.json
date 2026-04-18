@@ -1,0 +1,9 @@
+{
+  "window": "90d",
+  "services_analysed": 84,
+  "removal_patterns": [
+    { "module": "logging-sidecar", "removed_by_day_7": 52, "removal_rate": 0.62 },
+    { "module": "auth-middleware", "removed_by_day_7": 18, "removal_rate": 0.21 },
+    { "module": "health-check-endpoint", "removed_by_day_7": 5, "removal_rate": 0.06 }
+  ]
+}

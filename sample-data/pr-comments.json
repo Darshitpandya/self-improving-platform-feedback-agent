@@ -1,0 +1,8 @@
+{
+  "window": "90d",
+  "relevant_comments": [
+    { "keyword_match": "logging + template", "count": 14, "sentiment": "negative", "sample": "Had to rip out the logging sidecar again — conflicts with our ELK setup" },
+    { "keyword_match": "auth module + workaround", "count": 8, "sentiment": "negative", "sample": "Auth middleware doesn't support our OAuth flow, had to bypass it" },
+    { "keyword_match": "CI + slow", "count": 5, "sentiment": "negative", "sample": "Security scan adds 6 min to every PR, skipping for now" }
+  ]
+}

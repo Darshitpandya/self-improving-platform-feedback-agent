@@ -1,0 +1,37 @@
+name: Platform Feedback Agent
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Every Monday at 8 AM — before Tuesday triage
+  workflow_dispatch:       # Manual trigger
+
+permissions:
+  issues: write
+
+env:
+  GITHUB_REPO: ${{ github.repository }}
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run feedback agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          BEDROCK_MODEL_ID: ${{ secrets.BEDROCK_MODEL_ID }}
+        run: |
+          python agent/orchestrator.py \
+            --analyse \
+            --window 90d
