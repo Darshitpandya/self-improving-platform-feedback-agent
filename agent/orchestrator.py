@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from agent.collectors import git_removals, ci_friction, scorecard_trends, pr_comments
 from agent.friction_correlator import correlate
 from agent.proposal_publisher import publish
+from agent.pattern_memory import PatternMemory
 
 
 def main():
@@ -61,7 +62,15 @@ def main():
     mentions = sum(c.get("count", 0) for c in pr_data.get("relevant_comments", []))
     print(f"└── PR comments: {mentions} relevant mentions")
 
-    # Step 2: Correlate with golden path steps
+    # Step 2: Check pattern memory
+    memory = PatternMemory()
+    for pattern in git_data.get("removal_patterns", []):
+        summary = f"module:{pattern['module']} removal_rate:{pattern['removal_rate']}"
+        if memory.check_regression(summary):
+            print(f"  ⚠️  Regression detected: {pattern['module']} was previously resolved but friction recurred")
+        memory.store(summary, pattern["module"])
+
+    # Step 3: Correlate with golden path steps
     mode = "dry-run (hardcoded)" if args.dry_run else "Amazon Bedrock"
     print(f"\nCorrelating with golden path steps via {mode}...")
     proposals = correlate(signals, dry_run=args.dry_run)
@@ -77,7 +86,7 @@ def main():
         print("\n✅ No high-confidence proposals. Platform is healthy.")
         return
 
-    # Step 3: Publish as GitHub Issues
+    # Step 4: Publish as GitHub Issues
     print(f"\nPublishing to GitHub...")
     urls = publish(proposals)
 
