@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: '0 8 * * 1'  # Every Monday at 8 AM — before Tuesday triage
   workflow_dispatch:       # Manual trigger
+    inputs:
+      dry_run:
+        description: 'Use dry-run mode (no Bedrock needed, still creates real GitHub Issues)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 permissions:
   issues: write
@@ -32,6 +41,11 @@ jobs:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           BEDROCK_MODEL_ID: ${{ secrets.BEDROCK_MODEL_ID }}
         run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
           python agent/orchestrator.py \
             --analyse \
-            --window 90d
+            --window 90d \
+            $DRY_RUN_FLAG
