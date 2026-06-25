@@ -13,34 +13,34 @@ This is not a survey tool. A survey asks developers what they think. An **agent*
 ## Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                     SIGNAL SOURCES                            │
-│                                                               │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────┐  ┌───────┐ │
-│  │ Git History  │  │ OpenTelemetry│  │ Portal   │  │  PR   │ │
-│  │ (post-       │  │ (CI/CD       │  │ Scorecard│  │Review │ │
-│  │  scaffold    │  │  pipeline    │  │ Trends   │  │Comments│ │
-│  │  removals)   │  │  traces)     │  │          │  │       │ │
-│  └──────┬───────┘  └──────┬───────┘  └────┬─────┘  └───┬───┘ │
-└─────────┼─────────────────┼────────────────┼────────────┼─────┘
-          │                 │                │            │
-          ▼                 ▼                ▼            ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │              FEEDBACK AGENT                               │
-   │                                                           │
-   │  Collect signals → Correlate with golden path steps       │
-   │  (Amazon Bedrock) → Generate typed proposals              │
-   │  (Instructor / Pydantic)                                  │
-   └──────────────────────────┬────────────────────────────────┘
-                              │
-                              ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │              OUTPUT: GitHub Issues                        │
-   │                                                           │
-   │  Structured improvement proposals                         │
-   │  with data, confidence, estimated impact                  │
-   │  → Human reviews → Roadmap item (or reject)               │
-   └──────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              SIGNAL SOURCES                                 │
+│                                                                             │
+│  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐  │
+│  │ Git History  │   │OpenTelemetry │   │   Portal     │   │  PR Review   │  │
+│  │ (post-       │   │ (CI/CD       │   │ Scorecard    │   │ Comments     │  │
+│  │  scaffold    │   │  pipeline    │   │  Trends      │   │              │  │
+│  │  removals)   │   │  traces)     │   │              │   │              │  │
+│  └──────┬───────┘   └──────┬───────┘   └──────┬───────┘   └──────┬───────┘  │
+└─────────┼──────────────────┼──────────────────┼──────────────────┼──────────┘
+          │                  │                  │                  │           
+          ▼                  ▼                  ▼                  ▼           
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          FEEDBACK AGENT                                     │
+│                                                                             │
+│  Collect signals → Correlate with golden path steps                         │
+│  (Amazon Bedrock) → Generate typed proposals                                │
+│  (Instructor / Pydantic)                                                    │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │                                       
+                                       ▼                                       
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       OUTPUT: GitHub Issues                                 │
+│                                                                             │
+│  Structured improvement proposals                                           │
+│  with data, confidence, estimated impact                                    │
+│  → Human reviews → Roadmap item (or reject)                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Why an Agent, Not a Survey
